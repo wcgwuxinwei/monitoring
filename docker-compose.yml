@@ -12,7 +12,7 @@ services:
     extra_hosts:
       - "grafana.monitoring:172.16.238.11"
     networks:
-      mongo_rs_net:
+      monitoring_net:
         ipv4_address: 172.16.238.10
   grafana:
     container_name: grafana
@@ -21,12 +21,12 @@ services:
     ports:
       - "3001:3000"
     extra_hosts:
-      - "prometeus.monitoring:172.16.238.10"
+      - "prometheus.monitoring:172.16.238.10"
     environments:
       - GF_SERVER_ROOT_URL=https://grafana.wuxinwei.org
       - GF_SECURITY_ADMIN_PASSWORD=b3525466
     networks:
-      mongo_rs_net:
+      monitoring_net:
         ipv4_address: 172.16.238.11
 
 networks:
