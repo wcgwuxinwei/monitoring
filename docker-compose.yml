@@ -5,7 +5,7 @@ services:
     container_name: prometheus
     image: prom/prometheus:v1.7.1
     volumes:
-      - $PWD/prometheus/prometheus.yml:/etc/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     hostname: prometheus.monitoring
@@ -22,7 +22,7 @@ services:
       - "3001:3000"
     extra_hosts:
       - "prometheus.monitoring:172.16.238.10"
-    environments:
+    environment:
       - GF_SERVER_ROOT_URL=https://grafana.wuxinwei.org
       - GF_SECURITY_ADMIN_PASSWORD=b3525466
     networks:
