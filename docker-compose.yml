@@ -1,0 +1,38 @@
+gersion: "3"
+
+services:
+  prometeus:
+    container_name: prometheus
+    image: prom/prometheus:v1.7.1
+    volumes:
+      - $PWD/prometheus/prometheus.yml:/etc/prometheus.yml
+    ports:
+      - "9090:9090"
+    hostname: prometheus.monitoring
+    extra_hosts:
+      - "grafana.monitoring:172.16.238.11"
+    networks:
+      mongo_rs_net:
+        ipv4_address: 172.16.238.10
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:4.4.2
+    hostname: grafana.monitoring
+    ports:
+      - "3001:3000"
+    extra_hosts:
+      - "prometeus.monitoring:172.16.238.10"
+    environments:
+      - GF_SERVER_ROOT_URL=https://grafana.wuxinwei.org
+      - GF_SECURITY_ADMIN_PASSWORD=b3525466
+    networks:
+      mongo_rs_net:
+        ipv4_address: 172.16.238.11
+
+networks:
+  monitoring_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
